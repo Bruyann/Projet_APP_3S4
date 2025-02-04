@@ -3,42 +3,56 @@ import 'package:go_router/go_router.dart';
 import 'package:swipezone/screens/home_page.dart';
 import 'package:swipezone/screens/planning_page.dart';
 import 'package:swipezone/screens/select_page.dart';
+import 'package:swipezone/screens/nfc_page.dart';
 
 void main() {
-  runApp(
-    MaterialApp.router(
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp.router(
       routerConfig: _router,
-    ),
+      title: 'SwipeZone',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+    );
+  }
+
+  final GoRouter _router = GoRouter(
+    routes: <RouteBase>[
+      GoRoute(
+        path: '/',
+        builder: (BuildContext context, GoRouterState state) {
+          return const HomePage(title: 'SwipeZone');
+        },
+        routes: <RouteBase>[
+          GoRoute(
+            path: 'planningpage',
+            builder: (BuildContext context, GoRouterState state) {
+              return const PlanningPage(title: "Planning");
+            },
+          ),
+          GoRoute(
+            path: 'selectpage',
+            builder: (BuildContext context, GoRouterState state) {
+              return const SelectPage(title: "Select Locations");
+            },
+          ),
+          GoRoute(
+            path: 'nfcpage',
+            builder: (BuildContext context, GoRouterState state) {
+              return const NFCPage();
+            },
+          ),
+        ],
+      ),
+    ],
   );
 }
 
-final GoRouter _router = GoRouter(
-  routes: <RouteBase>[
-    GoRoute(
-      path: '/',
-      builder: (BuildContext context, GoRouterState state) {
-        return const HomePage(
-          title: 'HomePage',
-        );
-      },
-      routes: <RouteBase>[
-        GoRoute(
-          path: 'planningpage',
-          builder: (BuildContext context, GoRouterState state) {
-            return const PlanningPage(
-              title: "PlanningPage",
-            );
-          },
-        ),
-        GoRoute(
-          path: 'selectpage',
-          builder: (BuildContext context, GoRouterState state) {
-            return const SelectPage(
-              title: "SelectPage",
-            );
-          },
-        ),
-      ],
-    ),
-  ],
-);
