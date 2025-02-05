@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_nfc_kit/flutter_nfc_kit.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NFCPage extends StatefulWidget {
   const NFCPage({Key? key}) : super(key: key);
@@ -38,6 +39,10 @@ class _NFCPageState extends State<NFCPage> {
         _tagData = 'ID: ${tag.id}\nType: ${tag.standard}\nATQA: ${tag.atqa}\nSAK: ${tag.sak}';
       });
 
+      if (tag.id == 'C32EF624') {
+        await _openWebPage();
+      }
+
       if (tag.standard == "ISO 14443-4 (Type A)") {
         var result = await FlutterNfcKit.transceive("00B0950000");
         setState(() {
@@ -50,6 +55,28 @@ class _NFCPageState extends State<NFCPage> {
       });
     } finally {
       await FlutterNfcKit.finish();
+    }
+  }
+
+  Future<void> _openWebPage() async {
+    final Uri url = Uri.parse('https://cedriclis.github.io/test_page_web_swipezone/');
+    try {
+      if (!await launchUrl(
+        url,
+        mode: LaunchMode.externalApplication,
+        webViewConfiguration: const WebViewConfiguration(
+          enableJavaScript: true,
+          enableDomStorage: true,
+        ),
+      )) {
+        setState(() {
+          _nfcStatus = 'Erreur: Impossible d\'ouvrir le navigateur';
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _nfcStatus = 'Erreur lors de l\'ouverture du lien: $e';
+      });
     }
   }
 

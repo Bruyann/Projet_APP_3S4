@@ -43,7 +43,9 @@ class _SelectPageState extends State<SelectPage> {
     }
 
     String message = 'Je partage avec toi mes lieux favoris : ${selectedLocations.join(", ")}';
-    Uri smsUri = Uri(scheme: 'sms', queryParameters: {'body': message});
+    // Encode the message to replace spaces with %20 instead of +
+    String encodedMessage = Uri.encodeComponent(message);
+    Uri smsUri = Uri.parse('sms:?body=$encodedMessage');
 
     if (await canLaunchUrl(smsUri)) {
       await launchUrl(smsUri);
