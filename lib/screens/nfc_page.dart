@@ -22,7 +22,8 @@ class _NFCPageState extends State<NFCPage> {
   Future<void> _checkNfcAvailability() async {
     var availability = await FlutterNfcKit.nfcAvailability;
     setState(() {
-      _nfcStatus = 'NFC disponibilité: $availability';
+     // _nfcStatus = 'NFC disponibilité: $availability';
+      _nfcStatus = '';
     });
   }
 
