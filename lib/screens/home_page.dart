@@ -21,29 +21,24 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: FutureBuilder<List<Location>>(
-        future: _locationUseCase.getLocation(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          }
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No locations available'));
-          }
+      body: SafeArea(
+        child: FutureBuilder<List<Location>>(
+          future: _locationUseCase.getLocation(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            }
+            if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return const Center(child: Text('No locations available'));
+            }
 
-          _locationManager.locations = snapshot.data!;
-          return _buildMainContent();
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => GoRouter.of(context).go('/planningpage'),
-        child: const Icon(Icons.add),
+            _locationManager.locations = snapshot.data!;
+            return _buildMainContent();
+          },
+        ),
       ),
     );
   }
@@ -85,7 +80,7 @@ class _HomePageState extends State<HomePage> {
           alignment: Alignment.centerRight,
           child: Padding(
             padding: EdgeInsets.only(right: 20.0),
-            child: Icon(Icons.check, color: Colors.white),
+            child: Icon(Icons.check, color: Colors.white, size: 40),
           ),
         ),
       ),
@@ -95,7 +90,7 @@ class _HomePageState extends State<HomePage> {
           alignment: Alignment.centerLeft,
           child: Padding(
             padding: EdgeInsets.only(left: 20.0),
-            child: Icon(Icons.close, color: Colors.white),
+            child: Icon(Icons.close, color: Colors.white, size: 40),
           ),
         ),
       ),

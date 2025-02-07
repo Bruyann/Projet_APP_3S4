@@ -114,13 +114,6 @@ class _SelectPageState extends State<SelectPage> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          GoRouter.of(context).push('/planningpage');
-        },
-        tooltip: 'Add plan',
-        child: const Icon(Icons.add),
-      ),
     );
   }
 }
