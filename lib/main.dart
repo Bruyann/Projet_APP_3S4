@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       routerConfig: _router,
       title: 'SwipeZone',
+      debugShowCheckedModeBanner: false, // Ajout de cette ligne pour supprimer le bandeau debug
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
