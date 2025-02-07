@@ -52,13 +52,53 @@ class _HomePageState extends State<HomePage> {
     return Column(
       children: [
         Expanded(
-          child: LocationCard(
-            location: _locationManager.locations[_locationManager.currentIndex],
-          ),
+          child: _buildSwipeableCard(),
         ),
         _buildActionButtons(),
         _buildNavigationButtons(),
       ],
+    );
+  }
+
+  Widget _buildSwipeableCard() {
+    if (_locationManager.currentIndex >= _locationManager.locations.length) {
+      return const Center(child: Text('No more locations'));
+    }
+
+    return Dismissible(
+      key: Key(_locationManager.locations[_locationManager.currentIndex].id.toString()),
+      onDismissed: (direction) {
+        setState(() {
+          if (direction == DismissDirection.endToStart) {
+            _locationManager.Idontwant();
+          } else {
+            _locationManager.Iwant();
+          }
+        });
+      },
+      child: LocationCard(
+        location: _locationManager.locations[_locationManager.currentIndex],
+      ),
+      background: Container(
+        color: Colors.green,
+        child: const Align(
+          alignment: Alignment.centerRight,
+          child: Padding(
+            padding: EdgeInsets.only(right: 20.0),
+            child: Icon(Icons.check, color: Colors.white),
+          ),
+        ),
+      ),
+      secondaryBackground: Container(
+        color: Colors.red,
+        child: const Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: EdgeInsets.only(left: 20.0),
+            child: Icon(Icons.close, color: Colors.white),
+          ),
+        ),
+      ),
     );
   }
 
