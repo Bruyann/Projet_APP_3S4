@@ -128,9 +128,10 @@ class _HomePageState extends State<HomePage> {
           onPressed: () => GoRouter.of(context).go('/selectpage'),
           child: const Text('View Liked Locations'),
         ),
-        ElevatedButton(
+        ElevatedButton.icon(
+          icon: const Icon(Icons.nfc),
+          label: const Text('Scanner NFC'),
           onPressed: () => GoRouter.of(context).go('/nfcpage'),
-          child: const Text('Scanner NFC'),
         ),
       ],
     );
